@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT"
+PIO="${ROOT}/.venv/bin/pio"
+if [[ ! -x "$PIO" ]]; then
+  echo "Buat venv dan pasang PlatformIO:" >&2
+  echo "  cd \"$ROOT\" && python3 -m venv .venv && .venv/bin/pip install -r requirements.txt" >&2
+  exit 1
+fi
+exec "$PIO" "$@"
