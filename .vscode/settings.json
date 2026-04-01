@@ -1,0 +1,33 @@
+{
+  "clangd.enable": false,
+  "C_Cpp.intelliSenseEngine": "Tag Parser",
+  "C_Cpp.errorSquiggles": "disabled",
+  "C_Cpp.default.compilerPath": "${env:HOME}/.platformio/packages/toolchain-xtensa-esp32/bin/xtensa-esp32-elf-g++",
+  "C_Cpp.default.cppStandard": "gnu++11",
+  "C_Cpp.default.cStandard": "gnu11",
+  "C_Cpp.default.intelliSenseMode": "gcc-x64",
+  "C_Cpp.default.includePath": [
+    "${workspaceFolder}/include",
+    "${workspaceFolder}/src",
+    "${env:HOME}/.platformio/packages/framework-arduinoespressif32/cores/esp32",
+    "${env:HOME}/.platformio/packages/framework-arduinoespressif32/variants/esp32"
+  ],
+  "C_Cpp.default.browse.path": [
+    "${workspaceFolder}",
+    "${env:HOME}/.platformio/packages/framework-arduinoespressif32",
+    "${env:HOME}/.platformio/packages/toolchain-xtensa-esp32"
+  ],
+  "C_Cpp.default.defines": [
+    "ARDUINO_ARCH_ESP32",
+    "ESP32",
+    "ARDUINO=10812",
+    "F_CPU=240000000L",
+    "ARDUINO_ESP32_DEV=1"
+  ],
+  "[cpp]": {
+    "C_Cpp.errorSquiggles": "disabled"
+  },
+  "[c]": {
+    "C_Cpp.errorSquiggles": "disabled"
+  }
+}
