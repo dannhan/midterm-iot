@@ -11,6 +11,8 @@
                 "/Users/yatnasubagya/midterm-iot/include",
                 "/Users/yatnasubagya/midterm-iot/src",
                 "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
+                "/Users/yatnasubagya/midterm-iot/.pio/libdeps/esp32dev/LiquidCrystal_I2C",
+                "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                 "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                 "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
@@ -238,7 +240,6 @@
                 "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                 "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                 "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
-                "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                 ""
             ],
             "browse": {
@@ -247,6 +248,8 @@
                     "/Users/yatnasubagya/midterm-iot/include",
                     "/Users/yatnasubagya/midterm-iot/src",
                     "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/SPI/src",
+                    "/Users/yatnasubagya/midterm-iot/.pio/libdeps/esp32dev/LiquidCrystal_I2C",
+                    "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/newlib/platform_include",
                     "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include",
                     "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/tools/sdk/esp32/include/freertos/include/esp_additions/freertos",
@@ -474,7 +477,6 @@
                     "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/WiFi/src",
                     "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/WiFiClientSecure/src",
                     "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/WiFiProv/src",
-                    "/Users/yatnasubagya/.platformio/packages/framework-arduinoespressif32/libraries/Wire/src",
                     ""
                 ]
             },
