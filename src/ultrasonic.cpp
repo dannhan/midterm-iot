@@ -36,11 +36,8 @@ float Ultrasonic::readLevel() {
 }
 
 // smoothing sederhana (EMA)
-float Ultrasonic::readSmoothedLevel() {
-  float current = readLevel();
-
+float Ultrasonic::smooth(float current) {
   float smoothed = 0.7 * prevLevel + 0.3 * current;
   prevLevel = smoothed;
-
   return smoothed;
 }

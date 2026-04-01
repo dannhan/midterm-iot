@@ -6,7 +6,7 @@ public:
 
   float readDistance();
   float readLevel();
-  float readSmoothedLevel();
+  float smooth(float current);
 
 private:
   int trig;
