@@ -5,8 +5,8 @@ public:
   Ultrasonic(int trigPin, int echoPin, float maxDistance);
 
   float readDistance();
-  float readLevel();
-  float smooth(float current);
+  float readLevel(float distance);
+  float smooth(float level);
 
 private:
   int trig;

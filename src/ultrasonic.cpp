@@ -23,8 +23,7 @@ float Ultrasonic::readDistance() {
   return distance;
 }
 
-float Ultrasonic::readLevel() {
-  float distance = readDistance();
+float Ultrasonic::readLevel(float distance) {
   float level = maxDist - distance;
 
   if (level < 0)
@@ -36,8 +35,8 @@ float Ultrasonic::readLevel() {
 }
 
 // smoothing sederhana (EMA)
-float Ultrasonic::smooth(float current) {
-  float smoothed = 0.7 * prevLevel + 0.3 * current;
+float Ultrasonic::smooth(float level) {
+  float smoothed = 0.7 * prevLevel + 0.3 * level;
   prevLevel = smoothed;
   return smoothed;
 }

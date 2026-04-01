@@ -3,7 +3,7 @@
 #include <Arduino.h>
 
 // Sama seperti main di origin/main: pin & jarak maks (cm)
-Ultrasonic ultrasonic(5, 18, 8);
+Ultrasonic ultrasonic(5, 18, 80);
 LcdStatus display;
 
 void setup() {
@@ -14,13 +14,13 @@ void setup() {
 }
 
 void loop() {
-  float level = ultrasonic.readLevel();
-  float smoothLevel = ultrasonic.smooth(level);
   float distance = ultrasonic.readDistance();
+  float level = ultrasonic.readLevel(distance);
+  float smoothLevel = ultrasonic.smooth(level);
 
   display.showReadings(distance, level, smoothLevel);
 
-  Serial.printf("Level: %.2f | Smooth: %.2f\n", level, smoothLevel);
+  Serial.printf("Distance: %.2f | Level: %.2f | Smooth: %.2f\n", distance, level, smoothLevel);
 
   delay(600);
 }

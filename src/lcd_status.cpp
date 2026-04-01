@@ -1,10 +1,14 @@
 #include "lcd_status.h"
 #include <Arduino.h>
-#include <Wire.h>
-#include <cstring>
 #include <LiquidCrystal_I2C.h>
+#include <Wire.h>
 
 static LiquidCrystal_I2C lcd(LCD_I2C_ADDR, LCD_COLS, LCD_ROWS);
+
+// TODO:
+// #define SCREEN_WIDTH 128
+// #define SCREEN_HEIGHT 64
+// static Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, -1);
 
 bool LcdStatus::begin() {
   Wire.begin(LCD_SDA_PIN, LCD_SCL_PIN);
