@@ -1,17 +1,16 @@
 #include "ultrasonic.h"
 #include <Arduino.h>
 
-Ultrasonic ultrasonic(5, 18, 100); // max distance 100 cm
+// max distance 8 cm
+Ultrasonic ultrasonic(5, 18, 8);
 
 void setup() { Serial.begin(115200); }
 
 void loop() {
-  float distance = ultrasonic.readDistance();
   float level = ultrasonic.readLevel();
-  float smoothLevel = ultrasonic.readSmoothedLevel();
+  float smoothLevel = ultrasonic.smooth(level);
 
-  Serial.printf("Distance: %.2f | Level: %.2f | Smooth: %.2f\n", distance,
-                level, smoothLevel);
+  Serial.printf("Level: %.2f | Smooth: %.2f\n", level, smoothLevel);
 
   delay(600);
 }
