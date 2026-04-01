@@ -1,33 +1,17 @@
+#include "ultrasonic.h"
 #include <Arduino.h>
 
-#define TRIG 5
-#define ECHO 18
+Ultrasonic ultrasonic(5, 18, 100); // max distance 100 cm
 
-#define SOUND_SPEED 0.034
-#define CM_TO_INCH 0.39701
-
-void setup() {
-    Serial.begin(115200);
-    pinMode(TRIG, OUTPUT);
-    pinMode(ECHO, INPUT);
-}
-
-float readDistance() {
-    digitalWrite(TRIG, LOW);
-    delayMicroseconds(2);
-    digitalWrite(TRIG, HIGH);
-    delayMicroseconds(10);
-    digitalWrite(TRIG, LOW);
-
-    long duration = pulseIn(ECHO, HIGH);
-    float distance = duration * SOUND_SPEED / 2;
-
-    return distance;
-}
+void setup() { Serial.begin(115200); }
 
 void loop() {
-    float d = readDistance();
-	Serial.print("Distance (cm): ");
-	Serial.println(d);
-    delay(1000);
+  float distance = ultrasonic.readDistance();
+  float level = ultrasonic.readLevel();
+  float smoothLevel = ultrasonic.readSmoothedLevel();
+
+  Serial.printf("Distance: %.2f | Level: %.2f | Smooth: %.2f\n", distance,
+                level, smoothLevel);
+
+  delay(600);
 }
