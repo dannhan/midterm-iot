@@ -6,57 +6,49 @@
 #include "ultrasonic.h"
 #include <Arduino.h>
 
-// Sama seperti main di origin/main: pin & jarak maks (cm)
-Ultrasonic ultrasonic(5, 18, 16);
-LcdStatus display;
+#define TRIG 5
+#define ECHO 18
+#define MAX_DIST 80
 
-RateCalculator rateCalc;
-StateMachine stateMachine;
-
-// Pin LED: hijau, kuning, merah
-LedController leds(32, 33, 25);
-
-DHTSensor dht(19); // contoh pin
+#define DHT_PIN 19
 
 float prevLevel = 0;
 unsigned long prevTime = 0;
 
 void setup() {
   Serial.begin(115200);
-  if (!display.begin()) {
-    Serial.println(F("LCD init failed (cek I2C addr / kabel)."));
-  }
 
-  dht.begin();
-  leds.begin();
+  ultrasonicBegin(TRIG, ECHO);
+  dhtBegin(DHT_PIN);
+  lcdBegin(21, 22);
+  lcdSplash("Flood Monitor", "Init OK", 800);
+  ledBegin(32, 33, 25);
+
   prevTime = millis();
 }
 
 void loop() {
-  float distance = ultrasonic.readDistance();
-  float level = ultrasonic.readLevel(distance);
-  float smoothLevel = ultrasonic.smooth(level);
+  float distance = readDistance(TRIG, ECHO);
+  float level = computeLevel(distance, MAX_DIST);
+  float smooth = smoothLevel(level, prevLevel);
 
-  float humidity = dht.readHumidity();
-  float temperature = dht.readTemperature();
+  float humidity = readHumidity();
+  float temperature = readTemperature();
 
   unsigned long now = millis();
   float dt = (now - prevTime) / 1000.0;
 
-  float rate = rateCalc.compute(smoothLevel, prevLevel, dt);
-  State state = stateMachine.update(smoothLevel, rate, humidity);
+  float rate = computeRate(smooth, prevLevel, dt);
+  State state = computeState(smooth, rate, humidity);
 
-  display.showReadings(distance, level, smoothLevel);
+  ledUpdate(state);
 
-  leds.update(state);
+  lcdShowReadings(distance, level, smooth);
 
-  leds.update(state);
+  Serial.printf("L: %.2f | R: %.2f | H: %.2f | T: %.2f | %s\n", smooth, rate,
+                humidity, temperature, stateToString(state));
 
-  Serial.printf(
-      "Level: %.2f | Rate: %.2f | Hum: %.2f | Temp: %.2f | State: %s\n",
-      smoothLevel, rate, humidity, temperature, stateToString(state));
-
-  prevLevel = smoothLevel;
+  prevLevel = smooth;
   prevTime = now;
 
   delay(600);

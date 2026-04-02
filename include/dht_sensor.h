@@ -1,13 +1,6 @@
 #pragma once
 
-class DHTSensor {
-public:
-  DHTSensor(int pin);
+void dhtBegin(int pin);
 
-  void begin();
-  float readTemperature();
-  float readHumidity();
-
-private:
-  int pin;
-};
+float readTemperature();
+float readHumidity();

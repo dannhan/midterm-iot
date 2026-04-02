@@ -1,6 +1,3 @@
 #pragma once
 
-class RateCalculator {
-public:
-  float compute(float current, float previous, float dt);
-};
+float computeRate(float current, float previous, float dt);

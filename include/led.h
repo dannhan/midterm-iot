@@ -1,15 +1,5 @@
 #pragma once
 #include "state.h"
 
-class LedController {
-public:
-  LedController(int greenPin, int yellowPin, int redPin);
-
-  void begin();
-  void update(State state);
-
-private:
-  int green;
-  int yellow;
-  int red;
-};
+void ledBegin(int g, int y, int r);
+void ledUpdate(State state);

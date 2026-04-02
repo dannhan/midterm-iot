@@ -1,24 +1,18 @@
 #include "state.h"
 #include <Arduino.h>
 
-State StateMachine::update(float level, float rate, float humidity) {
-
-  // handle sensor error
-  if (isnan(humidity)) {
+State computeState(float level, float rate, float humidity) {
+  if (isnan(humidity))
     humidity = 0;
-  }
 
-  if (level > 60) {
-    current = State::DANGER;
-  } else if (rate > 2.0 && humidity > 70) {
-    current = State::ALERT;
-  } else if (rate > 3.5) { // fallback kalau humidity gagal
-    current = State::ALERT;
-  } else {
-    current = State::SAFE;
-  }
+  if (level > 60)
+    return State::DANGER;
+  if (rate > 2.0 && humidity > 70)
+    return State::ALERT;
+  if (rate > 3.5)
+    return State::ALERT;
 
-  return current;
+  return State::SAFE;
 }
 
 const char *stateToString(State s) {

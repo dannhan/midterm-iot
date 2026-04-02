@@ -3,15 +3,13 @@
 
 #define DHTTYPE DHT11
 
-static DHT dht(0, DHTTYPE); // dummy init
+static DHT dht(0, DHTTYPE);
 
-DHTSensor::DHTSensor(int p) : pin(p) {}
-
-void DHTSensor::begin() {
+void dhtBegin(int pin) {
   dht = DHT(pin, DHTTYPE);
   dht.begin();
 }
 
-float DHTSensor::readTemperature() { return dht.readTemperature(); }
+float readTemperature() { return dht.readTemperature(); }
 
-float DHTSensor::readHumidity() { return dht.readHumidity(); }
+float readHumidity() { return dht.readHumidity(); }

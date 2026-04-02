@@ -2,12 +2,5 @@
 
 enum class State { SAFE, ALERT, DANGER };
 
-class StateMachine {
-public:
-  State update(float level, float rate, float humidity);
-
-private:
-  State current = State::SAFE;
-};
-
+State computeState(float level, float rate, float humidity);
 const char *stateToString(State s);

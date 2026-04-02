@@ -1,17 +1,7 @@
 #pragma once
 
-class Ultrasonic {
-public:
-  Ultrasonic(int trigPin, int echoPin, float maxDistance);
+void ultrasonicBegin(int trig, int echo);
 
-  float readDistance();
-  float readLevel(float distance);
-  float smooth(float level);
-
-private:
-  int trig;
-  int echo;
-  float maxDist;
-
-  float prevLevel;
-};
+float readDistance(int trig, int echo);
+float computeLevel(float distance, float maxDist);
+float smoothLevel(float current, float previous);

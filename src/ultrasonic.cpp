@@ -3,13 +3,12 @@
 
 #define SOUND_SPEED 0.034
 
-Ultrasonic::Ultrasonic(int trigPin, int echoPin, float maxDistance)
-    : trig(trigPin), echo(echoPin), maxDist(maxDistance), prevLevel(0) {
+void ultrasonicBegin(int trig, int echo) {
   pinMode(trig, OUTPUT);
   pinMode(echo, INPUT);
 }
 
-float Ultrasonic::readDistance() {
+float readDistance(int trig, int echo) {
   digitalWrite(trig, LOW);
   delayMicroseconds(2);
 
@@ -17,13 +16,14 @@ float Ultrasonic::readDistance() {
   delayMicroseconds(10);
   digitalWrite(trig, LOW);
 
-  long duration = pulseIn(echo, HIGH);
-  float distance = duration * SOUND_SPEED / 2;
+  long duration = pulseIn(echo, HIGH, 30000);
+  if (duration == 0)
+    return -1;
 
-  return distance;
+  return duration * SOUND_SPEED / 2;
 }
 
-float Ultrasonic::readLevel(float distance) {
+float computeLevel(float distance, float maxDist) {
   float level = maxDist - distance;
 
   if (level < 0)
@@ -34,9 +34,6 @@ float Ultrasonic::readLevel(float distance) {
   return level;
 }
 
-// smoothing sederhana (EMA)
-float Ultrasonic::smooth(float level) {
-  float smoothed = 0.7 * prevLevel + 0.3 * level;
-  prevLevel = smoothed;
-  return smoothed;
+float smoothLevel(float current, float previous) {
+  return 0.7 * previous + 0.3 * current;
 }
