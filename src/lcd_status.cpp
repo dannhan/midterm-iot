@@ -31,19 +31,27 @@ static void pad(int len) {
     lcd.print(' ');
 }
 
-void lcdShowReadings(float d, float l, float s) {
+static const char *stateLabel(State s) {
+  switch (s) {
+  case State::SAFE:
+    return "SAFE";
+  case State::ALERT:
+    return "ALERT";
+  case State::DANGER:
+    return "DANGER";
+  }
+  return "UNKNOWN";
+}
+
+void lcdShowStatus(State state, float level, float rate, float humidity) {
   char line1[17];
   char line2[17];
 
-  snprintf(line1, sizeof(line1), "D:%.2fcm", d);
-  if ((int)strlen(line1) > LCD_COLS)
-    snprintf(line1, sizeof(line1), "D:%.1fcm", d);
+  // --- LINE 1: STATE ---
+  snprintf(line1, sizeof(line1), "%-6s H:%2.0f%%", stateLabel(state), humidity);
 
-  snprintf(line2, sizeof(line2), "L:%.2f S:%.2f", l, s);
-  if ((int)strlen(line2) > LCD_COLS)
-    snprintf(line2, sizeof(line2), "L:%.1f S:%.1f", l, s);
-  if ((int)strlen(line2) > LCD_COLS)
-    snprintf(line2, sizeof(line2), "L:%.0f S:%.0f", l, s);
+  // --- LINE 2: LEVEL + RATE ---
+  snprintf(line2, sizeof(line2), "L:%4.1f R:%3.1f", level, rate);
 
   lcd.setCursor(0, 0);
   lcd.print(line1);

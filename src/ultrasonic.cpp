@@ -34,6 +34,6 @@ float computeLevel(float distance, float maxDist) {
   return level;
 }
 
-float smoothLevel(float current, float previous) {
-  return 0.7 * previous + 0.3 * current;
+float smooth(float current, float prev, float alpha) {
+  return (1 - alpha) * prev + alpha * current;
 }

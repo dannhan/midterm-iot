@@ -1,8 +1,10 @@
+#include "config.h"
 #include "dht_sensor.h"
 #include "lcd_status.h"
 #include "led.h"
 #include "rate.h"
 #include "state.h"
+#include "state_data.h"
 #include "ultrasonic.h"
 #include <Arduino.h>
 
@@ -14,6 +16,12 @@
 
 float prevLevel = 0;
 unsigned long prevTime = 0;
+
+Config cfg = {.maxDistance = 16,
+              .smoothAlpha = 0.3,
+              .alertRate = 2.0,
+              .dangerLevel = 12.0,
+              .humidityThreshold = 70};
 
 void setup() {
   Serial.begin(115200);
@@ -27,29 +35,38 @@ void setup() {
   prevTime = millis();
 }
 
-void loop() {
-  float distance = readDistance(TRIG, ECHO);
-  float level = computeLevel(distance, MAX_DIST);
-  float smooth = smoothLevel(level, prevLevel);
+SystemState sys = {0, 0};
 
+void loop() {
+  unsigned long now = millis();
+  float dt = (now - sys.prevTime) / 1000.0;
+
+  // --- INPUT ---
+  float distance = readDistance(TRIG, ECHO);
   float humidity = readHumidity();
   float temperature = readTemperature();
 
-  unsigned long now = millis();
-  float dt = (now - prevTime) / 1000.0;
+  // --- TRANSFORM ---
+  float level = computeLevel(distance, cfg.maxDistance);
+  float smoothed = smooth(level, sys.prevLevel, cfg.smoothAlpha);
+  float rate = computeRate(smoothed, sys.prevLevel, dt);
 
-  float rate = computeRate(smooth, prevLevel, dt);
-  State state = computeState(smooth, rate, humidity);
+  SensorData data = {distance, level, smoothed, humidity, temperature};
 
+  State state = computeState(data.smooth, rate, data.humidity, cfg);
+
+  // --- OUTPUT ---
   ledUpdate(state);
+  lcdShowStatus(state, data.smooth, rate, data.humidity);
 
-  lcdShowReadings(distance, level, smooth);
+  Serial.printf("Distance=%.2f cm | Level=%.2f cm | Rate=%.2f cm/s | "
+                "Humidity=%.2f %% | State=%s\n",
+                distance, data.smooth, rate, data.humidity,
+                stateToString(state));
 
-  Serial.printf("L: %.2f | R: %.2f | H: %.2f | T: %.2f | %s\n", smooth, rate,
-                humidity, temperature, stateToString(state));
-
-  prevLevel = smooth;
-  prevTime = now;
+  // --- UPDATE STATE ---
+  sys.prevLevel = data.smooth;
+  sys.prevTime = now;
 
   delay(600);
 }

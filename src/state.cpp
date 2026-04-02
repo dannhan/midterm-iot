@@ -1,15 +1,18 @@
 #include "state.h"
+#include "config.h"
 #include <Arduino.h>
 
-State computeState(float level, float rate, float humidity) {
+State computeState(float level, float rate, float humidity, const Config &cfg) {
   if (isnan(humidity))
     humidity = 0;
 
-  if (level > 60)
+  if (level > cfg.dangerLevel)
     return State::DANGER;
-  if (rate > 2.0 && humidity > 70)
+
+  if (rate > cfg.alertRate && humidity > cfg.humidityThreshold)
     return State::ALERT;
-  if (rate > 3.5)
+
+  if (rate > cfg.alertRate * 1.5)
     return State::ALERT;
 
   return State::SAFE;
