@@ -2,5 +2,5 @@
 
 class RateCalculator {
 public:
-    float compute(float current, float previous, float dt);
+  float compute(float current, float previous, float dt);
 };

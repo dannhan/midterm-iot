@@ -1,18 +1,13 @@
 #pragma once
 
-enum class State {
-    SAFE,
-    ALERT,
-    DANGER
-};
+enum class State { SAFE, ALERT, DANGER };
 
 class StateMachine {
 public:
-    State update(float level, float rate);
+  State update(float level, float rate, float humidity);
 
 private:
-    State current = State::SAFE;
+  State current = State::SAFE;
 };
 
-// helper (biar gampang print)
-const char* stateToString(State s);
+const char *stateToString(State s);

@@ -15,7 +15,8 @@ class LcdStatus {
 public:
   bool begin();
   void showReadings(float distanceCm, float levelCm, float smoothedLevelCm);
-  void showSplash(const char *line1, const char *line2, unsigned long ms = 1500);
+  void showSplash(const char *line1, const char *line2,
+                  unsigned long ms = 1500);
 
 private:
   bool ok = false;

@@ -3,13 +3,13 @@
 
 class LedController {
 public:
-    LedController(int greenPin, int yellowPin, int redPin);
+  LedController(int greenPin, int yellowPin, int redPin);
 
-    void begin();
-    void update(State state);
+  void begin();
+  void update(State state);
 
 private:
-    int green;
-    int yellow;
-    int red;
+  int green;
+  int yellow;
+  int red;
 };
