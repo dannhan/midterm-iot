@@ -2,13 +2,19 @@
 #include "config.h"
 #include <Arduino.h>
 
-State computeState(float level, float rate, float humidity, const Config &cfg) {
+State computeState(float level, float rate, float humidity, bool rain,
+                   const Config &cfg) {
   if (isnan(humidity))
     humidity = 0;
 
   if (level > cfg.dangerLevel)
     return State::DANGER;
 
+  // PRIORITAS: rain sensor
+  if (rate > cfg.alertRate && rain)
+    return State::ALERT;
+
+  // fallback: humidity
   if (rate > cfg.alertRate && humidity > cfg.humidityThreshold)
     return State::ALERT;
 

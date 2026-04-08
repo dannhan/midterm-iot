@@ -4,6 +4,7 @@
 
 enum class State { SAFE, ALERT, DANGER };
 
-State computeState(float level, float rate, float humidity, const Config &cfg);
+State computeState(float level, float rate, float humidity, bool isRaining,
+                   const Config &cfg);
 
 const char *stateToString(State s);

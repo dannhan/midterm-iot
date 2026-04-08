@@ -12,6 +12,7 @@
 #define ECHO 18
 #define MAX_DIST 80
 
+#define RAIN_PIN 23
 #define DHT_PIN 19
 
 float prevLevel = 0;
@@ -28,6 +29,7 @@ void setup() {
 
   ultrasonicBegin(TRIG, ECHO);
   dhtBegin(DHT_PIN);
+  rainBegin(RAIN_PIN);
   lcdBegin(21, 22);
   lcdSplash("Flood Monitor", "Init OK", 800);
   ledBegin(32, 33, 25);
@@ -45,6 +47,7 @@ void loop() {
   float distance = readDistance(TRIG, ECHO);
   float humidity = readHumidity();
   float temperature = readTemperature();
+  bool rain = isRaining();
 
   // --- TRANSFORM ---
   float level = computeLevel(distance, cfg.maxDistance);
@@ -53,7 +56,7 @@ void loop() {
 
   SensorData data = {distance, level, smoothed, humidity, temperature};
 
-  State state = computeState(data.smooth, rate, data.humidity, cfg);
+  State state = computeState(data.smooth, rate, data.humidity, rain, cfg);
 
   // --- OUTPUT ---
   ledUpdate(state);
